@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeopardy! - Agent Showcase</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="agent-showcase-body">
+
+    <div class="container my-5">
+        <div class="text-center">
+            <h1 class="showcase-title">MEET THE AGENTS</h1>
+            <p class="showcase-subtitle">Select an agent to see their trivia style in action.</p>
+        </div>
+
+        <!-- Agent Selection Grid -->
+        <div id="agent-selection-grid" class="row g-4 my-5">
+            <!-- Agent cards will be injected by JS -->
+        </div>
+
+        <!-- Result Podium -->
+        <div id="result-podium" class="result-podium d-none">
+            <div id="podium-header" class="podium-header">
+                <h2 id="podium-agent-name">AGENT NAME</h2>
+            </div>
+            <div class="podium-body">
+                <div class="podium-question-box">
+                    <small>THE QUESTION WAS:</small>
+                    <p id="podium-question-text">This is where the question will appear.</p>
+                </div>
+                <hr class="podium-divider">
+                <div class="podium-answer-box">
+                    <p id="podium-ai-answer" class="podium-ai-answer-text"></p>
+                    <p id="podium-ai-explanation" class="podium-ai-explanation-text"></p>
+                </div>
+            </div>
+            <div id="podium-footer" class="podium-footer">
+                <span id="podium-result-text">RESULT</span>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="/" class="btn btn-return">Back to Game</a>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS for this page -->
+    <script src="static/js/agents.js"></script>
+</body>
+</html>

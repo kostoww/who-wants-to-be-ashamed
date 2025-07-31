@@ -13,6 +13,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(router, prefix="/api", tags=["Jeopardy"])
 
+@app.get("/agents-showcase", response_class=HTMLResponse, tags=["Pages"])
+def serve_agent_showcase():
+    with open("static/agents.html") as f:
+        return f.read()
+
 @app.get("/", response_class=HTMLResponse, tags=["Root"])
 def serve_frontend():
     with open("static/index.html") as f:
