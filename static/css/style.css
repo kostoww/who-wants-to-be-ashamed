@@ -1,0 +1,177 @@
+:root {
+    --jeopardy-blue: #0c2074;
+    --jeopardy-blue-dark: #020c4c;
+    --jeopardy-gold: #ffaa00;
+    --font-header: 'Teko', sans-serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--jeopardy-blue-dark);
+    font-family: var(--font-body);
+    overflow: hidden;
+}
+
+#game-container {
+    padding: 0;
+}
+
+/* --- Start Screen --- */
+.game-title {
+    font-family: var(--font-header);
+    font-size: 10rem;
+    color: white;
+    text-shadow: 6px 6px 0px var(--jeopardy-blue), -2px -2px 0px var(--jeopardy-gold);
+}
+
+.btn-start {
+    background-color: var(--jeopardy-gold);
+    color: var(--jeopardy-blue-dark);
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding: 10px 40px;
+    border: 3px solid var(--jeopardy-blue-dark);
+    border-radius: 10px;
+}
+
+/* --- Game Board --- */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto; /* for categories */
+    gap: 8px;
+    padding: 20px;
+    height: 90vh;
+}
+
+.category-header {
+    background-color: var(--jeopardy-blue);
+    color: white;
+    font-family: var(--font-header);
+    font-size: 2vw;
+    text-align: center;
+    padding: 15px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+}
+
+.clue-box {
+    background-color: var(--jeopardy-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border-radius: 5px;
+}
+.clue-box:hover {
+    transform: scale(1.05);
+    border: 2px solid var(--jeopardy-gold);
+}
+.clue-box.answered {
+    background-color: var(--jeopardy-blue);
+    pointer-events: none; /* Make it unclickable */
+}
+.clue-box .value {
+    color: var(--jeopardy-gold);
+    font-family: var(--font-header);
+    font-size: 4vw;
+    font-weight: 700;
+    text-shadow: 3px 3px 2px rgba(0,0,0,0.4);
+}
+.clue-box.answered .value {
+    visibility: hidden;
+}
+
+.score-container {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+#score-display {
+    color: var(--jeopardy-gold);
+    font-family: var(--font-header);
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+/* --- Clue Modal --- */
+.modal-content.clue-content {
+    background-color: var(--jeopardy-blue);
+    border: 5px solid var(--jeopardy-gold);
+    border-radius: 0;
+    color: white;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.clue-category-title {
+    font-family: var(--font-header);
+    font-size: 3rem;
+    text-transform: uppercase;
+}
+
+.clue-text-display {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding: 20px;
+    min-height: 200px;
+}
+.answer-section .form-control {
+    font-size: 1.5rem;
+    text-align: center;
+}
+.result-title {
+    font-weight: bold;
+}
+.result-title.correct { color: #198754; }
+.result-title.incorrect { color: #dc3545; }
+
+.ai-explanation {
+    font-style: italic;
+    font-size: 1.2rem;
+}
+
+
+.btn-submit-answer {
+    background-color: var(--jeopardy-gold);
+    color: var(--jeopardy-blue-dark);
+    font-weight: 600;
+    font-size: 1.3rem;
+    padding: 10px 30px;
+    border: 2px solid var(--jeopardy-blue-dark);
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+.btn-submit-answer:hover {
+    background-color: #ffcc33;
+}
+
+.btn-return {
+    background-color: white;
+    color: var(--jeopardy-blue-dark);
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 8px 25px;
+    border: 2px solid var(--jeopardy-gold);
+    border-radius: 8px;
+    margin-top: 15px;
+    transition: background-color 0.2s ease;
+}
+.btn-return:hover {
+    background-color: var(--jeopardy-gold);
+    color: var(--jeopardy-blue-dark);
+}

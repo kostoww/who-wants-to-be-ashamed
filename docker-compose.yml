@@ -13,8 +13,6 @@ services:
       - "5432:5432"
 
   data_import:
-    profiles:
-      - noop
     build:
       context: .
     command: >
@@ -29,8 +27,6 @@ services:
       - .env
 
   web:
-    profiles:
-      - noop # TODO this disable the service from docker compose
     build:
       context: .
       dockerfile: Dockerfile

@@ -8,10 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
-DATABASE_URL = "postgresql+psycopg2://admin:super-secret-password@localhost:5432/wwtba"
 
 Base = declarative_base()
-
 
 class JeopardyQuestion(Base):
     __tablename__ = 'jeopardy_questions'
