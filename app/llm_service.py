@@ -1,4 +1,6 @@
 import os
+import random
+
 import openai
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -64,30 +66,33 @@ def verify_answer_with_llm(question: str, correct_answer: str, user_answer: str)
         return False, f"Could not verify with AI due to an error: {e}"
 
 
-def get_answer_from_llm(question: str) -> str:
+def get_structured_answer_from_llm(system_prompt: str, question: str, skill_level: float) -> (str, str):
     """
-    Uses an LLM to attempt to answer a given trivia question.
+    Uses an LLM with a specific persona to answer a trivia question and provide an explanation.
+    Applies an agent-specific skill level to determine if the agent should be "confused".
+    Returns a tuple of (ai_answer, ai_explanation).
     """
-    if not openai.api_key:
-        return "AI agent is offline (OPENAI_API_KEY not set)."
+    if random.random() > skill_level:
+        question = f"{question}\n\n(IMPORTANT! You are feeling very uncertain about this one. Your confidence is low. Make your response as mistake or a wild guess, which is again mistake based on your persona.)"
 
     try:
-        prompt = f"""
-        You are a contestant in a trivia game. Answer the following question as concisely as possible.
-        Question: "{question}"
-        Answer:
-        """
-
-        response = openai.chat.completions.create(
+        response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a knowledgeable trivia contestant."},
-                {"role": "user", "content": prompt}
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": question}
             ],
-            temperature=0.0,
-            max_tokens=50
+            temperature=0.7,
+            max_tokens=150
         )
-        return response.choices[0].message.content.strip()
+
+        content = response.choices[0].message.content.strip()
+        lines = content.split('\n', 1)
+
+        ai_answer = lines[0].strip()
+        ai_explanation = lines[1].strip() if len(lines) > 1 else "..."
+
+        return ai_answer, ai_explanation
 
     except Exception as e:
-        return f"AI agent experienced an error: {e}"
+        return f"AI agent error", f"Could not get answer from AI due to an error: {e}"

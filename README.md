@@ -28,3 +28,4 @@ pytest
 # TODO 
 - find the bug for the parsing csv, as there seems to be some inconsistency in the csv file
 - fix the broken test execution, as i have no time to fix it now
+- extracts logic from the routes in separate service and keep tiny routes

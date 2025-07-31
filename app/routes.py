@@ -6,6 +6,9 @@ from collections import defaultdict
 from . import models, schema
 from .persistance import get_db
 from . import llm_service
+from . import agent
+from .agent_instructions import AGENTS
+
 
 router = APIRouter()
 
@@ -112,3 +115,38 @@ def get_game_board(round_name: str, db: Session = Depends(get_db)):
         "round": round_name,
         "categories": structured_board
     }
+
+@router.get("/agents/", tags=["AI Agent"])
+def get_agent_list():
+    """
+    Returns a list of all available AI agent personas.
+    """
+    return {
+        agent_name: {
+            "name": data["name"],
+            "description": data["description"]
+        } for agent_name, data in AGENTS.items()
+    }
+
+
+@router.post("/agent-play/{agent_name}", response_model=schema.AgentPlayResponse, tags=["AI Agent"])
+def agent_plays_a_turn(agent_name: str, db: Session = Depends(get_db)):
+    """
+    Triggers a specific AI agent to play a random turn.
+    The agent picks a question, answers it based on its persona, and self-verifies.
+    """
+    if agent_name not in AGENTS:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Agent '{agent_name}' not found. Available agents are: {list(AGENTS.keys())}"
+        )
+
+    selected_agent = AGENTS[agent_name]
+
+    agent_result = agent.play_turn(
+        db=db,
+        agent_name=selected_agent["name"],
+        system_prompt=selected_agent["system_prompt"],
+        skill_level=selected_agent["skill_level"]
+    )
+    return agent_result
