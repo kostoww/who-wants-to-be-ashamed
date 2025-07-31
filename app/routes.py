@@ -5,6 +5,7 @@ from collections import defaultdict
 
 from . import models, schema
 from .persistance import get_db
+from . import llm_service
 
 router = APIRouter()
 
@@ -47,9 +48,13 @@ def verify_answer(request: schema.VerifyAnswerRequest, db: Session = Depends(get
     if not question:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Question not found")
 
-    is_correct = True # TODO don't give money away for free
+    is_correct, ai_response = llm_service.verify_answer_with_llm(
+        question=question.question,
+        correct_answer=question.answer,
+        user_answer=request.user_answer
+    )
 
-    return schema.VerifyAnswerResponse(is_correct=is_correct)
+    return schema.VerifyAnswerResponse(is_correct=is_correct, ai_response=ai_response)
 
 
 @router.get("/gameboard/{round_name}")

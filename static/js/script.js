@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }),
             });
             const result = await response.json();
-            showResult(result.is_correct, "You are correct!");
+            showResult(result.is_correct, result.ai_response);
 
         } catch (error) {
             showResult(false, 'Error connecting to the verification service.');

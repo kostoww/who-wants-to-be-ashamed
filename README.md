@@ -3,6 +3,7 @@
 # Requirements
 - [Docker](https://www.docker.com/)
 - [Python 3.11+](https://www.python.org/downloads/)
+- [OpenAI API Key](https://platform.openai.com/signup) (for interaction)
 
 # Installation
 
@@ -11,6 +12,8 @@ Create a .venv in the root directory of the project:
 ```bash
 python -m venv .venv
 ```
+
+
 
 
 # TODO 

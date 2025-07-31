@@ -19,3 +19,4 @@ class VerifyAnswerRequest(BaseModel):
 
 class VerifyAnswerResponse(BaseModel):
     is_correct: bool
+    ai_response: str
