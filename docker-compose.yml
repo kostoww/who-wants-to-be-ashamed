@@ -9,15 +9,15 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
   data_import:
     build:
       context: .
-    command: python data/import_game_data.py
+    command: >
+      sh -c "pip install --no-cache-dir -r data/requirements.txt &&
+             python data/import_game_data.py"
     volumes:
       - .:/code
     working_dir: /code
@@ -27,6 +27,8 @@ services:
       - .env
 
   web:
+    profiles:
+      - noop # TODO this disable the service from docker compose
     build:
       context: .
       dockerfile: Dockerfile

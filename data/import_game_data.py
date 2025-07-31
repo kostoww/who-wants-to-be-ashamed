@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from sqlalchemy import create_engine, Column, Integer, String, Text, MetaData
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -19,12 +19,12 @@ class JeopardyQuestion(Base):
     air_date = Column(String)
     round = Column(String)
     category = Column(String)
-    value = Column(String)
+    value = Column(Integer)
     question = Column(Text)
     answer = Column(Text)
 
 
-def clean_value(value):
+def clean_value(value) -> int:
     if isinstance(value, str):
         try:
             return int(value.replace('$', '').replace(',', '').split('.')[0])
@@ -35,15 +35,15 @@ def clean_value(value):
 
 def import_data():
     engine = create_engine(DATABASE_URL)
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
-
     Session = sessionmaker(bind=engine)
     session = Session()
 
     try:
         session.query(JeopardyQuestion).delete()
 
-        df = pd.read_csv('JEOPARDY_CSV.csv')
+        df = pd.read_csv('data/JEOPARDY_CSV.csv')
         df.columns = [col.strip() for col in df.columns]
 
         df['Cleaned Value'] = df['Value'].apply(clean_value)
@@ -55,7 +55,7 @@ def import_data():
                 air_date=row['Air Date'],
                 round=row['Round'],
                 category=row['Category'],
-                value=row['Value'],
+                value=row['Cleaned Value'],
                 question=row['Question'],
                 answer=row['Answer']
             )
