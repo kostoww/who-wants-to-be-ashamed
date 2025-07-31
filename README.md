@@ -11,3 +11,7 @@ Create a .venv in the root directory of the project:
 ```bash
 python -m venv .venv
 ```
+
+
+# TODO 
+- find the bug for the parsing csv, as there seems to be some inconsistency in the csv file

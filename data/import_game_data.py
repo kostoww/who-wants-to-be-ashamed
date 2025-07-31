@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = "postgresql+psycopg2://admin:super-secret-password@localhost:5432/wwtba"
 
 Base = declarative_base()
 
@@ -43,13 +44,15 @@ def import_data():
     try:
         session.query(JeopardyQuestion).delete()
 
-        df = pd.read_csv('data/JEOPARDY_CSV.csv')
+        df = pd.read_csv('data/JEOPARDY_CSV.csv', quotechar='"')
         df.columns = [col.strip() for col in df.columns]
 
         df['Cleaned Value'] = df['Value'].apply(clean_value)
         filtered_df = df[df['Cleaned Value'] <= 1200]
 
         for _, row in filtered_df.iterrows():
+            if not isinstance(row['Cleaned Value'], int):
+                continue
             question_record = JeopardyQuestion(
                 show_number=row['Show Number'],
                 air_date=row['Air Date'],
